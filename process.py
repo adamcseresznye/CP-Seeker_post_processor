@@ -120,7 +120,6 @@ def extract_scores(data: dict) -> pd.DataFrame:
     
     return scores
 
-@st.cache_data
 def data_cleanup(uploaded_files, threshold = 80):
 
     dataframe_intensities = [read_in_intensities(file) for file in uploaded_files]
@@ -136,6 +135,5 @@ def data_cleanup(uploaded_files, threshold = 80):
 
     return pd.concat(extracted_intensities)[pd.concat(extracted_scores) > threshold].dropna(how='all')
 
-@st.cache_data
 def convert_df(df):
    return df.to_csv(index=True).encode('utf-8')
