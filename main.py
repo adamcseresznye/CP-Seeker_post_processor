@@ -42,7 +42,7 @@ if uploaded_files is not None and click:
     st.download_button(
         "Press to Download",
         csv,
-        f"{datetime.datetime.now(datetime.UTC).strftime('%y%m%d')}_experiment.csv",
+        f"{pd.Timestamp('today').strftime('%Y%m%d')}_experiment.csv",
         "text/csv",
         key="download-csv",
     )
