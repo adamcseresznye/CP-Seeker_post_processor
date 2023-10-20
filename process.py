@@ -149,11 +149,6 @@ def data_cleanup(
     dataframe_scores = [read_in_scores(file) for file in uploaded_files]
     extracted_scores = [extract_scores(file) for file in dataframe_scores]
 
-    if not extracted_intensities or not extracted_scores:
-        # Handle the case where no data is available
-        st.error("No data available for processing.")
-        return None  # Return an empty DataFrame or None
-
     filtered_df = pd.concat(extracted_intensities, axis="columns")[
         pd.concat(extracted_scores, axis="columns") >= threshold
     ].dropna(how="all")
