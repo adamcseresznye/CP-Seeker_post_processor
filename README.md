@@ -4,7 +4,7 @@ This [app](https://cpseeker-postprocess.streamlit.app/) is designed to facilitat
 
 ## Instructions for running the app online:
 
-1. Upload your files.
+1. Upload your CP-Seeker output files.
 2. Optionally, set your confidence level (the default confidence level is 80%).
 3. Download the filtered and merged dataset.
 
