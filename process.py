@@ -5,12 +5,15 @@ import pandas as pd
 import streamlit as st
 
 
-def read_in_intensities(file: str) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
+def read_in_intensities(
+    file: str, cols_ints: str = "AD:BF"
+) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """
     Reads an Excel file and extracts intensity data from specified columns.
 
     Parameters:
         file (str): The path to the Excel file.
+        cols_ints (str): Location of target columns.
 
     Returns:
         pandas.DataFrame or dict: A pandas DataFrame object containing the intensities read from the file.
@@ -18,15 +21,18 @@ def read_in_intensities(file: str) -> Union[pd.DataFrame, Dict[str, pd.DataFrame
             the sheet name and the corresponding value is a DataFrame containing the intensities for that sheet.
 
     """
-    return pd.read_excel(file, sheet_name=None, usecols="AD:BF", skiprows=1)
+    return pd.read_excel(file, sheet_name=None, usecols=cols_ints, skiprows=1)
 
 
-def read_in_scores(file: str) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
+def read_in_scores(
+    file: str, cols_scores: str = "A:AC"
+) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
     """
     Reads an Excel file and extracts score data from specified columns.
 
     Parameters:
         file (str): The path to the Excel file.
+        cols_scores (str): Location of target columns.
 
     Returns:
         pandas.DataFrame or dict: A pandas DataFrame object containing the scores read from the file.
@@ -34,7 +40,7 @@ def read_in_scores(file: str) -> Union[pd.DataFrame, Dict[str, pd.DataFrame]]:
             the sheet name and the corresponding value is a DataFrame containing the scores for that sheet.
 
     """
-    return pd.read_excel(file, sheet_name=None, usecols="A:AC", skiprows=1)
+    return pd.read_excel(file, sheet_name=None, usecols=cols_scores, skiprows=1)
 
 
 def extract_intensities(data: dict) -> pd.DataFrame:
@@ -119,7 +125,10 @@ def extract_scores(data: dict) -> pd.DataFrame:
 
 
 def data_cleanup(
-    uploaded_files: Union[str, List[str]], threshold: int = 80
+    uploaded_files: Union[str, List[str]],
+    threshold: int = 80,
+    location_intensities: str = "AD:BF",
+    location_scores: str = "A:AC",
 ) -> pd.DataFrame:
     """
     Perform data cleanup and filtering on uploaded files.
@@ -127,6 +136,8 @@ def data_cleanup(
     Parameters:
         uploaded_files (Union[str, List[str]): A single file path or a list of file paths containing data.
         threshold (int, optional): The threshold for data filtering. Default is 80.
+        location_intensities (str):
+        location_scores (str):
 
     Returns:
         pd.DataFrame: A cleaned and filtered DataFrame.
@@ -141,12 +152,17 @@ def data_cleanup(
     if not isinstance(uploaded_files, (list, tuple)):
         uploaded_files = [uploaded_files]
 
-    dataframe_intensities = [read_in_intensities(file) for file in uploaded_files]
+    dataframe_intensities = [
+        read_in_intensities(file, cols_ints=location_intensities)
+        for file in uploaded_files
+    ]
     extracted_intensities = [
         extract_intensities(file) for file in dataframe_intensities
     ]
 
-    dataframe_scores = [read_in_scores(file) for file in uploaded_files]
+    dataframe_scores = [
+        read_in_scores(file, cols_scores=location_scores) for file in uploaded_files
+    ]
     extracted_scores = [extract_scores(file) for file in dataframe_scores]
 
     filtered_df = pd.concat(extracted_intensities, axis="columns")[

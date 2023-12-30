@@ -19,7 +19,7 @@ def main():
         ## Steps:
 
         1. Upload your CP-Seeker output files.
-        2. Optionally, set your confidence level (the default confidence level is 80%).
+        2. Optionally, set the column locations of the confidence values and peak intensities separated by ':' and set your confidence level (the default confidence level is 80%).
         3. Download the filtered and merged dataset.
         """
     )
@@ -29,15 +29,28 @@ def main():
         "Drop your CP-Seeker *.xlsx output files here:", accept_multiple_files=True
     )
 
-    st.markdown("### Set your confidence level")
-    threshold = st.slider(" ", 0, 100, 80)
+    with st.expander("### Optional settings"):
+        location_scores = st.text_input(
+            label="Range of confidence values in CP-Seeker excel file",
+            value="A:AB",
+            help="Default is set to A to AB separated by :",
+        )
+        location_intensities = st.text_input(
+            label="Range of peak intensities in CP-Seeker excel file",
+            value="AD:BF",
+            help="Default is set to AD to BF separated by :",
+        )
+        threshold = st.slider("Set your confidence level", 0, 100, 80)
 
     click = st.button("Start Post-Processing", key="start-button")
 
     if click:
         if uploaded_files:
             processed_df = process.data_cleanup(
-                uploaded_files=uploaded_files, threshold=threshold
+                uploaded_files=uploaded_files,
+                threshold=threshold,
+                location_intensities=location_intensities,
+                location_scores=location_scores,
             )
             csv = process.convert_df(processed_df)
 

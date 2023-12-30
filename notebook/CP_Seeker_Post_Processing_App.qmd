@@ -1,0 +1,51 @@
+---
+title: 'Streamlining Data Wrangling with the CP-Seeker Post-Processing App'
+author: Adam Cseresznye
+date: '2023-11-13'
+categories:
+  - CP-Seeker Post-Processing App
+jupyter: python3
+toc: true
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+![Photo by National Cancer Institute on UnSplash](https://images.unsplash.com/photo-1583911860205-72f8ac8ddcbe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D){fig-align="center" width=50%}
+
+Welcome to the CP-Seeker Post-Processing App! This application is designed to streamline the organization of CP-Seeker outputs, simplifying additional quantitation steps required for further pipeline processes. [CP-Seeker](https://www.sciencedirect.com/science/article/pii/S026974912300996X?via%3Dihub), a novel custom-built software developed by Ronan Cariou and team, is based on the R-programming language. Its purpose is to seamlessly conduct peak integration and quantification of chlorinated paraffins from high-resolution LC-MS data.
+
+::: {.callout-note}
+You can access the project's app through its [Streamlit website](https://cpseeker-postprocess.streamlit.app/).
+
+:::
+
+# Introduction
+
+The environmental analysis of [chlorinated paraffins](https://www.sciencedirect.com/science/article/pii/S0160412022005438?via%3Dihub) (CPs) poses significant challenges due to their intricate composition, varying congener patterns in the environment, and the absence of suitable reference standards. The presence of numerous isomers, enantiomers, and diastereomers within CP mixtures represents a considerable hurdle.
+
+Introducing CP-Seeker, a custom-built, user-friendly, and automated software dedicated to peak integration of CPs and related chemical families. Developed at [LABERCA](https://www.laberca.org/en/laberca), a joint research unit of ONIRIS and INRAE in Nantes, France. CP-Seeker is an open-source R software built using the Shiny framework.
+
+The CP-Seeker post-processing app automates the data-wrangling once the data, including confidence levels and peak areas, is obtained from CP-Seeker. Manual processes often involve repetitive copy-pasting of data, introducing potential errors and tediousness. As depicted in @fig-example, CP-Seeker's output poses challenges as injected samples are spread across separate excel sheets. Moreover, each sample encompasses two dataframes on the same tab:
+
+- one containing confidence scores assigned by CP-Seeker to detected congeners,
+- and the other holding the actual peak areas.
+
+![Illustrative Application of CP-Seeker Post-Processing App](img.png){#fig-example}
+
+The CP-Seeker post-processing app swiftly imports all datasets from various tabs and restructures the dataframes, akin to the pandas melt function. This transformation organizes congeners neatly, stacking them one beneath the other, rather than grouping them separately by carbon number and chlorine content. Consequently, all samples are presented side by side, eliminating the need for different tabs. Additionally, the app offers the ability to filter congeners and peak areas based on confidence intervals. In other words, congeners assigned lower confidence scores can be automatically excluded from further processing. Once the automated data wrangling is complete, the data is ready for further analysis using software/[workflow](https://www.sciencedirect.com/science/article/pii/S0021967305010770) of your choice.
+
+::: {.callout-tip title="Save time"}
+The CP-Seeker Post-Processing App reduces data preparation time for subsequent analysis stages, enhancing productivity and eliminating potential errors associated with manual data copying and pasting.
+:::
+
+# How to use the App
+
+1. Upload your CP-Seeker output files [here](https://cpseeker-postprocess.streamlit.app/).
+2. Optionally adjust the confidence level, which is set to 80% by default.
+3. Download the filtered and merged dataset.
+
+# Get in touch
+
+Did the app help with your research? Any ideas for making it better? Get in touch! I would love to hear from you.
