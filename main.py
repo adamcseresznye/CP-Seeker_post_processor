@@ -52,12 +52,13 @@ def main():
                 location_intensities=location_intensities,
                 location_scores=location_scores,
             )
-            csv = process.convert_df(processed_df)
+            with st.spinner("Processing..."):
+                csv = process.convert_df(processed_df)
 
             st.download_button(
                 "Press to Download",
                 csv,
-                f"{pd.Timestamp('today').strftime('%Y%m%d')}_experiment.csv",
+                f"{pd.Timestamp('today').strftime('%Y%m%d')}_CPSeeker_post_processor.csv",
                 "text/csv",
                 key="download-csv",
             )
