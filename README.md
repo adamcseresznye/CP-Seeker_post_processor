@@ -1,4 +1,4 @@
-# CP-Seeker_post_processor
+# CP-Seeker Post-Processor
 
 This [app](https://cpseeker-postprocess.streamlit.app/) is designed to facilitate post-processing of CP-Seeker's output (McGrath, J. et al, 2023).
 
